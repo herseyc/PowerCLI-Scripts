@@ -2,8 +2,6 @@
 #
 # Collection of PowerCLI Scripts from vHersey.com
 #
-# SVT
-#
 #
 # Question/Comments email me at herseyc@gmail.com
 #
