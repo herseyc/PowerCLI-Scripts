@@ -28,9 +28,11 @@ $matchVMs = "restore"
 
 ##############NO CHANGES BEYOND THIS POINT##############
 #List of VMs (vCenter Inventory Names) to change
+Write-Host "Getting list of VMs from Inventory where Inventory Name contains $matchVMs"
 $VMs = (get-vm | where {$_.Name -match $matchVMs -and $_.PowerState -eq "PoweredOn"}).Name
 
 foreach ($vm in $VMs) {
+   Write-Host "Working on $vm"
    #PowerShell used by Invoke-VMScript to retrieve current IP Address
    $ipscript = '(Get-NetIPAddress | where-object {$_.IPAddress -match "' + $origIp + '" -and $_.AddressFamily -eq "IPv4"}).IPAddress'
    $currentIp = invoke-vmscript -ScriptText $ipscript -ScriptType PowerShell -VM $vm -GuestUser $GuestUserName -GuestPassword $GuestPassword
@@ -57,6 +59,8 @@ foreach ($vm in $VMs) {
    Write-Host "Setting DNS Server to $newDNS"
    $changeDNS = 'C:\windows\system32\netsh.exe interface ipv4 set dnsservers name="' + $getIntAlias + '" source=static address=' + $newDNS + ' register=primary'
    $setDNS = invoke-vmscript -ScriptText $changeDNS -ScriptType bat -VM $vm -GuestUser $GuestUserName -GuestPassword $GuestPassword
+
+   Write-Host "Finished with $vm"
 }
 
    
