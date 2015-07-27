@@ -60,6 +60,11 @@ foreach ($vm in $VMs) {
    $changeDNS = '%WINDIR%\system32\netsh.exe interface ipv4 set dnsservers name="' + $getIntAlias + '" source=static address=' + $newDNS + ' register=primary'
    $setDNS = invoke-vmscript -ScriptText $changeDNS -ScriptType bat -VM $vm -GuestUser $GuestUserName -GuestPassword $GuestPassword
 
+   #Register with DNS
+   Write-Host "Registering with DNS"
+   $registeringDNS = '%WINDIR%\System32\ipconfig /registerdns'
+   $segDNS = invoke-vmscript -ScriptText $registeringDNS -ScriptType bat -VM $vm -GuestUser $GuestUserName -GuestPassword $GuestPassword
+
    Write-Host "Finished with $vm"
 }
 
