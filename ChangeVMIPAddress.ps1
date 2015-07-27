@@ -51,13 +51,13 @@ foreach ($vm in $VMs) {
    write-host "The interface name is $getIntAlias"
 
    #Change the IP Address
-   $changingIp = 'C:\windows\system32\netsh.exe interface ipv4 set address name="' + $getIntAlias + '" source=static address=' + $changeIp + ' mask=' + $newMask + ' gateway=' + $newGateway + ' gwmetric=1 store=persistent'
+   $changingIp = '%WINDIR%\system32\netsh.exe interface ipv4 set address name="' + $getIntAlias + '" source=static address=' + $changeIp + ' mask=' + $newMask + ' gateway=' + $newGateway + ' gwmetric=1 store=persistent'
    Write-host "Changing IP Address of $vm interface $getIntAlias from $currentIp to $changeIp"
    $setIp = invoke-vmscript -ScriptText $changingIp -ScriptType bat -VM $vm -GuestUser $GuestUserName -GuestPassword $GuestPassword
 
    #Change DNS Servers
    Write-Host "Setting DNS Server to $newDNS"
-   $changeDNS = 'C:\windows\system32\netsh.exe interface ipv4 set dnsservers name="' + $getIntAlias + '" source=static address=' + $newDNS + ' register=primary'
+   $changeDNS = '%WINDIR%\system32\netsh.exe interface ipv4 set dnsservers name="' + $getIntAlias + '" source=static address=' + $newDNS + ' register=primary'
    $setDNS = invoke-vmscript -ScriptText $changeDNS -ScriptType bat -VM $vm -GuestUser $GuestUserName -GuestPassword $GuestPassword
 
    Write-Host "Finished with $vm"
