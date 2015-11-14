@@ -20,7 +20,8 @@ $recoveryHD = "Hard disk 3"
 
 Clear-Host 
 
-$dateTime = Get-Date Get-Date -Format MMddyyhhmmss
+$dateTime = Get-Date -Format MMddyyhhmmss
+
 Write-Host "Here. We. Go!" -ForeGroundColor Cyan
 
 #Get Working Directory of Target VM
