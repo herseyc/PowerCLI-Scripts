@@ -4,6 +4,9 @@
 #
 # Requires active connection to vCenter Server (using connect-viserver)
 #
+# History:
+# 11/14/2015 - Hersey http://www.vhersey.com/ - Created
+#
 ########################################################################################################
 #Variables
 # Recovery VM Inventory Name which contains the vmdk to copy
