@@ -20,8 +20,6 @@ $recoveryHD = "Hard disk 3"
 
 Clear-Host 
 
-$dateTime = Get-Date -Format MMddyyhhmmss
-
 Write-Host "Here. We. Go!" -ForeGroundColor Cyan
 
 #Get Working Directory of Target VM
@@ -31,6 +29,7 @@ $targetWORK = $targetVM | Get-HardDisk | Where {$_.Name -eq "Hard disk 1"}
 $targetDIR = $targetWORK.Filename.Split("/")[0]
 
 #Set location and name of new VMDK
+$dateTime = Get-Date -Format MMddyyhhmmss #Just an attempt to add some uniqueness to the vmdk file name.
 $NewVMDK = "$targetDIR/recovery-VM-$dateTime.vmdk"
 
 #Copy VMDK from Recovery VM to Target VM Working Directory
