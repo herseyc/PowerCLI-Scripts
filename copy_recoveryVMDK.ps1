@@ -2,7 +2,7 @@
 # PowerCLI script to copy a vmdk from one VM (a recovery VM) to another VM (the target VM)
 # Usage copy_recoveryVMDK.ps1 
 #
-# Requires active connection to vCenter Server (using connect-viserver)
+# Requires active connection to vCenter Server (using Connect-VIServer)
 #
 # History:
 # 11/14/2015 - Hersey http://www.vhersey.com/ - Created
