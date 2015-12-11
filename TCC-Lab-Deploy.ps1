@@ -39,9 +39,11 @@ $vAppPMNetwork = "MasterPM"
 #Master vApp Standard PortGroup
 $vAppStdNetwork = "Master"
 
+#Number of Labs to Deploy
+$numlabs = "1"
+
 ##################################################
 #Set Counters
-$numlabs = "1"
 $pick = 0
 
 #Get Datastore for vApp Deployment
