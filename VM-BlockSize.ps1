@@ -1,6 +1,7 @@
 ###################################################################
 #
-# Generates HTML Report of Volume Formatted Blocksizes for all Running Windows VMs
+# Generates HTML Report of Volume Formatted Filesystem, Blocksize, Capacity, and Free Space
+# for all Running Windows VMs
 # Usage: VM-BlockSize.ps1
 #
 # 01/16/2016 - Hersey - http://www.vhersey.com/
@@ -28,9 +29,9 @@ foreach ( $vm in $VMs ) {
   $report  = $report + "<h2>Volume Blocksize Report for VM $vm</h2>"
 
   # Query to get Volume Information
-  $wql = "SELECT Label, Blocksize, Name FROM Win32_Volume"
+  $wql = "SELECT Label, Blocksize, Name, Capacity, FreeSpace, FileSystem FROM Win32_Volume"
 
-  $voltable = Get-WmiObject -Query $wql -ComputerName $vm -Credential $DomainCredential | ConvertTo-HTML Name, Label, Blocksize -Fragment
+  $voltable = Get-WmiObject -Query $wql -ComputerName $vm -Credential $DomainCredential | ConvertTo-HTML Name, Label, FileSystem, Blocksize, Capacity, FreeSpace -Fragment
 
   $report = $report + $voltable
 
