@@ -12,8 +12,11 @@ $ReportFile = "C:\Utilities\VMVol.html"
 $vCenterFQDN = "192.168.1.27"
 
 ############# Here we go ############# 
+# Get vCenter Credentials
+$vCenterCredential = Get-Credential -Message "vCenter User Credentials"
+
 # Connect to vCenter Server
-connect-VIServer $vCenterFQDN
+connect-VIServer $vCenterFQDN -Credential $vCenterCredential
 
 # Get Domain User Credentials
 $DomainCredential = Get-Credential -Message "Domain User Credentials"
