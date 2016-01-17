@@ -1,6 +1,6 @@
 ###################################################################
 #
-# Generates HTML Report of Volume Formatted Blocksize for all Running Windows VMs
+# Generates HTML Report of Volume Formatted Blocksizes for all Running Windows VMs
 # Usage: VM-BlockSize.ps1
 #
 # 01/16/2016 - Hersey - http://www.vhersey.com/
