@@ -37,7 +37,7 @@ foreach ( $vm in $VMs ) {
 }
 
 # Create HTML Report
-ConvertTo-Html -Body "$report" -Title "VM Volume Report" | Out-File $ReportFile
+ConvertTo-Html -Body "$report" -Title "VM Volume Blocksize Report" | Out-File $ReportFile
 
 # Open HTML Report
 Start $ReportFile
