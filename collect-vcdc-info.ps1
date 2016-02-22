@@ -145,7 +145,7 @@ foreach ( $dc in $dcenters ) {
 
    $report += $largevms | Select Name, ProvisionedSpaceGB, UsedSpaceGB | ft
 
-   $report += $iops | Select VM, Datastore, Disk, IOPSMaxWrite, IOPSMaxRead | ft
+   $report += $iops | Select VM, Datastore, Disk, IOPSMaxWrite, IOPSMaxRead, IOPSMax | ft
 
    $report += $totaliops | Select TotalIOPSWriteMax, PercentWrite, TotalIOPSReadMax, PercentRead, TotalIOPSMax | ft
 
