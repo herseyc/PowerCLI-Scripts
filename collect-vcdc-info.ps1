@@ -50,11 +50,12 @@ foreach ( $dc in $dcenters ) {
    }
 
 
-   $hostinfo | Select Host, NumCpuSockets, NumCpuCores, NumCpuThreads, CPUperCoreGHz, CPUinGHz, MemorySizeGB | ft
+   $report = $hostinfo | Select Host, NumCpuSockets, NumCpuCores, NumCpuThreads, CPUperCoreGHz, CPUinGHz, MemorySizeGB | ft
 
-   $hostoutput | Select NumberHosts, TotalCpuSockets, TotalCpuCores, TotalCpuThreads, TotalCPUinGHz, TotalMemoryGB | ft
+   $report += $hostoutput | Select NumberHosts, TotalCpuSockets, TotalCpuCores, TotalCpuThreads, TotalCPUinGHz, TotalMemoryGB | ft
 
-   $vmsoutput | Select TotalVMs, PoweredOnVMs, PoweredOffVMs, TotalvCPUs, ProvisionedDiskSpaceGB, UsedDiskSpaceGB, AllocatedMemoryGB, vCPUtoCoreRatio | ft
+   $report += $vmsoutput | Select TotalVMs, PoweredOnVMs, PoweredOffVMs, TotalvCPUs, ProvisionedDiskSpaceGB, UsedDiskSpaceGB, AllocatedMemoryGB, vCPUtoCoreRatio | ft
 
-
+   $report
+   
 }
