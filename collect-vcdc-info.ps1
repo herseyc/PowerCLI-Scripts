@@ -62,6 +62,8 @@ foreach ( $dc in $dcenters ) {
 
    $report += $hostoutput | Select NumberHosts, TotalCpuSockets, TotalCpuCores, TotalCpuThreads, TotalCPUinGHz, TotalMemoryGB | ft
 
+   $report += $hostutilization | Select CpuUsageGhz, MemoryUsageGB
+
    $report += $vmsoutput | Select TotalVMs, PoweredOnVMs, PoweredOffVMs, TotalvCPUs, ProvisionedDiskSpaceGB, UsedDiskSpaceGB, AllocatedMemoryGB, vCPUtoCoreRatio | ft
 
    $report
