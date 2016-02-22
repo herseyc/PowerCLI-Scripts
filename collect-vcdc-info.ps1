@@ -31,6 +31,14 @@ foreach ( $dc in $dcenters ) {
      TotalMemoryGB = ($hosttotals | ?{$_.Property -eq "MemorySizeGB"}).Sum
    }
 
+   $hostusage = $dc | get-vmhost | Measure-Object -Sum CpuUsageMhz, MemoryUsageGB
+
+   $hostutilization = New-Object -Type PSObject -Property @{
+      NumberHosts = $hostusage[0].Count
+      CpuUsageGhz = [math]::round((($hostusage | ?{($_.Property -eq "CpuUsageMhz")}).Sum)/1024, 2)
+      MemoryUsageGB = [math]::round(($hostusage | ?{($_.Property -eq "MemoryUsageGB")}).Sum, 2)
+   }
+
    $vms = $dc | Get-VM 
 
    $onvms =  ($vms | Where {$_.PowerState -eq "PoweredOn"}).count
