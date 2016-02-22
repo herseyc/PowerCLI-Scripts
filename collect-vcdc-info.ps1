@@ -55,7 +55,7 @@ foreach ( $dc in $dcenters ) {
    #Host Average Utilization
    $memoryusage = Get-Stat -Entity $dchosts -Stat "mem.consumed.average" -Start $start -Finish (Get-Date) | Group-Object -Property MetricId
    $avgmemory = ($memoryusage.Group | Measure-Object -Property Value -Average).Average
-   $cpuusage = Get-Stat -Entity $dchosts -Stat "cpu.usagemhz.average" -Start (Get-Date).AddDays(-14) -Finish (Get-Date) | Group-Object -Property MetricId
+   $cpuusage = Get-Stat -Entity $dchosts -Stat "cpu.usagemhz.average" -Start $start -Finish (Get-Date) | Group-Object -Property MetricId
    $avgcpu = ($cpuusage.Group | Measure-Object -Property Value -Average).Average
 
    #Average Utilization of CPU, Memory and Disk
@@ -78,7 +78,7 @@ foreach ( $dc in $dcenters ) {
 
    #IOPS - Thanks to LucD http://www.lucd.info/2011/04/22/get-the-maximum-iops/
    $metrics = "virtualdisk.numberwriteaveraged.average","virtualdisk.numberreadaveraged.average"
-   $stats = Get-Stat -Realtime -Stat $metrics -Entity ($vms | Where {$_.PowerState -eq "PoweredOn"}) -Start $start 
+   $stats = Get-Stat -Realtime -Stat $metrics -Entity ($vms | Where {$_.PowerState -eq "PoweredOn"})  
    $interval = $stats[0].IntervalSecs
  
    $hdTab = @{}
