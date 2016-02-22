@@ -9,8 +9,8 @@
 #Set Disk Size (GB) threshold for determining large capacity VMs
 $bigvmthreshold = "500"
 
-#Number of Days to get Average CPU, Memory, and IOPS
-$start = (Get-Date).AddDays(-5)
+#Number of Days to get Average CPU, Memory, and IOPS - back 14 days should be sufficient
+$start = (Get-Date).AddDays(-14)
 
 #Get Datacenters
 $dcenters = Get-Datacenter
