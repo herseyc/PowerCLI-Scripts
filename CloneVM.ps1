@@ -14,6 +14,8 @@ param(
 #Get SourceVM Info
 $vminfo = Get-VM $VM 
 $vmhost = $vminfo.VMHost.name
+$x = $vm.ExtensionData.Config.Files.VmPathName -match "\[(.*?)\]"
+$ds = $matches[1]
 
 $vmcount = $NumVMs
 
@@ -24,5 +26,5 @@ $vmcount = $NumVMs
 
    #Clone the VM
    write-host " Creating $VM_name "
-   New-VM -Name $vmname -VM $VM -VMHost $vmhost -RunAsync
+   New-VM -Name $vmname -VM $VM -VMHost $vmhost -Datastore $ds -RunAsync
 }
