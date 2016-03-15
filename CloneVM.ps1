@@ -19,10 +19,10 @@ $vmcount = $NumVMs
 
 1..$vmcount | foreach {
    #Set New VM Name
-   $y=”{0:D3}” -f $_
-   $VM_name= $VM + $y
+   $append=”{0:D3}” -f $_
+   $vmname= $VM + $append
 
    #Clone the VM
    write-host " Creating $VM_name "
-   New-VM -Name $VM_name -VM $VM -VMHost $vmhost -RunAsync
+   New-VM -Name $vmname -VM $VM -VMHost $vmhost -RunAsync
 }
