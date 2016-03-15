@@ -14,7 +14,7 @@ param(
 #Get SourceVM Info
 $vminfo = Get-VM $VM 
 $vmhost = $vminfo.VMHost.name
-$x = $vm.ExtensionData.Config.Files.VmPathName -match "\[(.*?)\]"
+$x = $vminfo.ExtensionData.Config.Files.VmPathName -match "\[(.*?)\]"
 $ds = $matches[1]
 
 $vmcount = $NumVMs
