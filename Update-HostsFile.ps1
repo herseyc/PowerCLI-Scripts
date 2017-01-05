@@ -1,6 +1,9 @@
 ###############################################################
 #
-#  Use PowerShell to add an entry to an ESXi /etc/hosts file
+# Quick and dirty way to use PowerShell to add an entry 
+# to an ESXi host's /etc/hosts file
+#
+# http://www.vhersey.com/
 #
 ###############################################################
 
