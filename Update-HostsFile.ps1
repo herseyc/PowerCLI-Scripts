@@ -35,11 +35,31 @@ $auth = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($
 $head = @{"Authorization"="Basic $auth"}
 
 # Request current hosts file
+Write-Host "Retrieving current /etc/hosts file from $esxihost" -ForeGroundColor Green
 $requesthostsfile = Invoke-WebRequest -Uri https://$esxihost/host/hosts -Method GET -ContentType "text/plain" -Headers $head
+
+if ( $requesthostsfile.StatusCode -ne "200" ) {
+   Write-Host "Unable to retrieve current /etc/hosts file from $esxihost" -ForeGroundColor Red
+   Exit
+}
 
 # Add new line to hosts file with $addIP and $addHostname
 $newhostsfile = $requesthostsfile.Content
 $newhostsfile += "`n$addIP`t$addHostname`n"
 
+Write-Host "Contents of new /etc/hosts" -ForeGroundColor Green
+Write-Host "-------------------------------------------------------"
+Write-Host $newhostsfile
+Write-Host "-------------------------------------------------------"
+
 # Put the new hosts file on the host
+Write-Host "Putting new /etc/hosts file on $esxihost"
 $puthostsfile = Invoke-WebRequest -Uri https://192.168.1.25/host/hosts -Method PUT -ContentType "text/plain" -Headers $head -Body $newhostsfile
+
+if ( $puthostsfile.StatusCode -ne "200" ) {
+   Write-Host "Unable to put new /etc/hosts file on $esxihost" -ForeGroundColor Red
+   Exit
+}
+Write-Host "Done!" -ForeGroundColor Green
+
+
