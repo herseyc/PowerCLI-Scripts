@@ -10,7 +10,7 @@
 $vcenter = "192.168.1.21"
 
 # Number of 20 second samples to collect
-$samples = 3
+$samples = 4320
 # 1 Minute = 3
 # 1 Hour = 180
 # 1 Day = 4320
@@ -22,7 +22,7 @@ $file = "C:\Utilities\Collect-IOPS.csv"
 # Create New File
 New-Item $file -type file -force
 #Add Column Headers to File
-Add-Content $file "TimeStamp,VM,Disk,Datastore,ReadIOPS,WriteIOPS"
+Add-Content $file "TimeStamp,VM,Disk,Datastore,ReadIOPS,ReadLatency,WriteIOPS,WriteLatency"
 
 # Connect to vCenter
 Connect-Viserver $vcenter
@@ -35,7 +35,7 @@ function Collect-IOPS {
    $vms = Get-VM
 
    #IOPS - Thanks to LucD http://www.lucd.info/2011/04/22/get-the-maximum-iops/
-   $metrics = "virtualdisk.numberwriteaveraged.average","virtualdisk.numberreadaveraged.average"
+   $metrics = "virtualdisk.numberreadaveraged.average","virtualdisk.numberwriteaveraged.average","virtualdisk.totalReadLatency.average","virtualdisk.totalWriteLatency.average"
    $stats = Get-Stat -Realtime -Stat $metrics -Entity ($vms | Where {$_.PowerState -eq "PoweredOn"}) -MaxSamples 1
    $interval = $stats[0].IntervalSecs
  
@@ -49,16 +49,18 @@ function Collect-IOPS {
    $iops = $stats | Group-Object -Property {$_.Entity.Name},Instance
 
    foreach ($collected in $iops) {
-       $readios = ($collected.Group | Group-Object -Property Timestamp | %{$_.Group[1].Value} | Measure-Object -Maximum).Maximum
-       $writeios = ($collected.Group | Group-Object -Property Timestamp | %{$_.Group[0].Value} | Measure-Object -Maximum).Maximum
+       $readios = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[0].Value} 
+       $writeios = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[1].Value} 
+       $readlatency = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[2].Value} 
+       $writelatency = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[3].Value} 
        $timestamp = $collected.Group | Group-Object -Property Timestamp
        $ts = $timestamp.Name
        $vmname = $collected.Values[0]
        $vmdisk = $collected.Values[1]
        $ds = $hdTab[$collected.Values[0] + "/"+ $collected.Values[1]]
-       #TimeStamp, VM, Disk, Datastore, Read IOPS, Write IOPS
-       $line = "$ts,$vmname,$vmdisk,$ds,$readios,$writeios"
-       # Write-Host $line
+       #TimeStamp, VM, Disk, Datastore, Read IOPS, ReadLatency, Write IOPS, Write Latency
+       $line = "$ts,$vmname,$vmdisk,$ds,$readios,$readlatency,$writeios,$writelatency"
+       #Write-Host $line
        Add-Content $file "$line"
    } 
 
@@ -72,7 +74,6 @@ For ($i = 1; $i -le $samples; $i+=1) {
 }
 
 Disconnect-Viserver $vcenter -Confirm:$false -WarningAction SilentlyContinue
-
 
 #################################################################################
 # Example Powershell to get Total Reads and Writes Per Sample 
