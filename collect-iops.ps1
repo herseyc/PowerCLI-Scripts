@@ -72,3 +72,16 @@ For ($i = 1; $i -le $samples; $i+=1) {
 }
 
 Disconnect-Viserver $vcenter -Confirm:$false -WarningAction SilentlyContinue
+
+
+#################################################################################
+# Example Powershell to get Total Reads and Writes Per Sample 
+# $iopsdata = Import-CSV .\Collect-IOPS.csv
+# $iopspersample = $iopsdata | Select-Object -Property * -Exclude Disk,VM,Datastore | Group-Object -Property TimeStamp,Instance | %{
+#    New-Object PSObject -Property @{
+#        TimeStamp = $_.Name
+#        ReadIOPS = ($_.Group.ReadIOPS | Measure-Object -Sum).Sum
+#        WriteIOPS = ($_.Group.WriteIOPS | Measure-Object -Sum).Sum
+#    }
+#}
+#################################################################################
