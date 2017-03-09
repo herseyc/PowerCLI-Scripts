@@ -1,3 +1,11 @@
+####################################################################
+# Uses vCenter Real Time Performance Stats to
+# collect real time counters for Read/Write IOPS for All VMs/Disks 
+# and writes data to file
+#
+# http://www.vhersey.com/
+#
+####################################################################
 # vCenter Server
 $vcenter = "192.168.1.21"
 
@@ -10,6 +18,7 @@ $samples = 4320
 # File to store stats
 $file = "C:\Utilities\Collect-IOPS.csv"
 
+################ HERE WE GO ####################
 # Create New File
 New-Item $file -type file -force
 #Add Column Headers to File
@@ -37,7 +46,6 @@ function Collect-IOPS {
           $hdTab[$hd.Parent.Name + "/scsi" + $controller.BusNumber + ":" + $hd.Extensiondata.UnitNumber] = $hd.FileName.Split(']')[0].TrimStart('[')
    }
 
-   #VM,Disk,IOPSMaxWrite,IOPSMaxRead,Datastore
    $iops = $stats | Group-Object -Property {$_.Entity.Name},Instance
 
    foreach ($collected in $iops) {
@@ -47,6 +55,7 @@ function Collect-IOPS {
        $ts = $timestamp.Name
        $vmname = $collected.Values[0]
        $vmdisk = $collected.Values[1]
+       #TimeStamp, VM, Disk, Read IOPS, Write IOPS
        $line = "$ts,$vmname,$vmdisk,$readios,$writeios"
        # Write-Host $line
        Add-Content $file "$line"
