@@ -49,10 +49,10 @@ function Collect-IOPS {
    $iops = $stats | Group-Object -Property {$_.Entity.Name},Instance
 
    foreach ($collected in $iops) {
-       $readios = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[0].Value} 
-       $writeios = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[1].Value} 
+       $readios = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[1].Value} 
+       $writeios = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[3].Value} 
        $readlatency = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[2].Value} 
-       $writelatency = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[3].Value} 
+       $writelatency = $collected.Group | Group-Object -Property Timestamp | %{$_.Group[0].Value} 
        $timestamp = $collected.Group | Group-Object -Property Timestamp
        $ts = $timestamp.Name
        $vmname = $collected.Values[0]
