@@ -10,7 +10,7 @@
 $vcenter = "192.168.1.21"
 
 # Number of 20 second samples to collect
-$samples = 4320
+$samples = 3
 # 1 Minute = 3
 # 1 Hour = 180
 # 1 Day = 4320
@@ -22,7 +22,7 @@ $file = "C:\Utilities\Collect-IOPS.csv"
 # Create New File
 New-Item $file -type file -force
 #Add Column Headers to File
-Add-Content $file "TimeStamp, VM, Disk, Read, Write"
+Add-Content $file "TimeStamp,VM,Disk,Datastore,ReadIOPS,WriteIOPS"
 
 # Connect to vCenter
 Connect-Viserver $vcenter
@@ -55,8 +55,9 @@ function Collect-IOPS {
        $ts = $timestamp.Name
        $vmname = $collected.Values[0]
        $vmdisk = $collected.Values[1]
-       #TimeStamp, VM, Disk, Read IOPS, Write IOPS
-       $line = "$ts,$vmname,$vmdisk,$readios,$writeios"
+       $ds = $hdTab[$collected.Values[0] + "/"+ $collected.Values[1]]
+       #TimeStamp, VM, Disk, Datastore, Read IOPS, Write IOPS
+       $line = "$ts,$vmname,$vmdisk,$ds,$readios,$writeios"
        # Write-Host $line
        Add-Content $file "$line"
    } 
