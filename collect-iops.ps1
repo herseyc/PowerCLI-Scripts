@@ -35,6 +35,7 @@ function Collect-IOPS {
    $vms = Get-VM
 
    #IOPS - Thanks to LucD http://www.lucd.info/2011/04/22/get-the-maximum-iops/
+   # https://www.vmware.com/support/developer/converter-sdk/conv61_apireference/virtual_disk_counters.html
    $metrics = "virtualdisk.numberreadaveraged.average","virtualdisk.numberwriteaveraged.average","virtualdisk.totalReadLatency.average","virtualdisk.totalWriteLatency.average"
    $stats = Get-Stat -Realtime -Stat $metrics -Entity ($vms | Where {$_.PowerState -eq "PoweredOn"}) -MaxSamples 1
    $interval = $stats[0].IntervalSecs
