@@ -35,10 +35,10 @@ $headers = @{}
 $headers.Add("Authorization", "Basic $base64")
 $uri = "https://" + $vchost + "/rest/com/vmware/cis/session"
 $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method Post
-
+# Get token from response
 $token = $response.value
 
-# Set session header with token.
+# Set token to vmware-api-session-id session header
 $session = @{'vmware-api-session-id' = $token}
 
 # Request list of VMs
